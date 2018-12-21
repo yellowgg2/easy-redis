@@ -18,8 +18,15 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
       );
     }
   }
-  getTreeItem(element: Entry): vscode.TreeItem {
+  async getTreeItem(element: Entry): Promise<vscode.TreeItem> {
     let treeItem = new vscode.TreeItem(element.key);
+    const result = await this.redisHandler.getValue(element.key);
+
+    treeItem.command = {
+      command: "redisExplorer.readData",
+      title: "Read Data",
+      arguments: [result]
+    };
     treeItem.iconPath = {
       light: path.join(
         __filename,
@@ -38,6 +45,7 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
         "dependency.svg"
       )
     };
+    console.log("=================================");
     return treeItem;
   }
 

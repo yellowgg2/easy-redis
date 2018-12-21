@@ -16,8 +16,17 @@ export class RedisExplorer {
       treeDataProvider
     });
 
-    vscode.commands.registerCommand("RedisExplorer.connectUri", resource =>
-      console.log(resource)
-    );
+    vscode.commands.registerCommand("redisExplorer.readData", resource => {
+      console.log(resource);
+      return this.openResource(resource);
+    });
+  }
+
+  private openResource(resource: any): void {
+    vscode.workspace
+      .openTextDocument({ content: JSON.stringify(resource), language: "json" })
+      .then(doc => {
+        vscode.window.showTextDocument(doc);
+      });
   }
 }
