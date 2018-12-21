@@ -24,7 +24,10 @@ export class RedisExplorer {
 
   private openResource(resource: any): void {
     vscode.workspace
-      .openTextDocument({ content: JSON.stringify(resource), language: "json" })
+      .openTextDocument({
+        content: JSON.stringify(resource, null, 2),
+        language: "json"
+      })
       .then(doc => {
         vscode.window.showTextDocument(doc);
       });
