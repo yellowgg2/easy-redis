@@ -3,6 +3,7 @@
   "displayName": "easy-redis",
   "description": "To access redis easily",
   "version": "0.0.1",
+  "publisher": "Youngki Kang",
   "engines": {
     "vscode": "^1.30.0"
   },
@@ -10,10 +11,23 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:redisExplorer"
+    "onView:redisExplorer",
+    "onCommand:config.commands.redisServer"
   ],
   "main": "./out/extension",
   "contributes": {
+    "configuration": [
+      {
+        "title": "Easy Redis Configuration",
+        "properties": {
+          "easyRedis.address": {
+            "type": "string",
+            "default": "localhost",
+            "description": "Redis Server Address: Where redis client connect to"
+          }
+        }
+      }
+    ],
     "views": {
       "explorer": [
         {
@@ -24,8 +38,8 @@
     },
     "commands": [
       {
-        "command": "extension.sayHello",
-        "title": "Hello World"
+        "command": "config.commands.redisServer",
+        "title": "Redis Server"
       }
     ]
   },
@@ -42,5 +56,8 @@
     "tslint": "^5.8.0",
     "@types/node": "^8.10.25",
     "@types/mocha": "^2.2.42"
+  },
+  "dependencies": {
+    "redis": "^2.8.0"
   }
 }

@@ -14,6 +14,6 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
     );
   }
   getChildren(element: Entry): vscode.ProviderResult<Entry[]> {
-    return [{ key: "aaa", value: "bbb" }, { key: "aaa", value: "bbb" }];
+    return [{ key: "aaa", value: "bbb" }, { key: "ccc", value: "ddd" }];
   }
 }
