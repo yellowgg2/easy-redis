@@ -3,7 +3,6 @@ import { RedisProvider } from "./RedisProvider";
 
 interface Entry {
   key: string;
-  value: string;
 }
 
 export class RedisExplorer {

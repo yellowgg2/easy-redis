@@ -58,6 +58,7 @@
     "@types/mocha": "^2.2.42"
   },
   "dependencies": {
+    "@types/redis": "^2.8.9",
     "redis": "^2.8.0"
   }
 }

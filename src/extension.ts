@@ -8,9 +8,6 @@ export function activate(context: vscode.ExtensionContext) {
       prompt: "Provide Redis Server address"
     });
 
-    const configuration = vscode.workspace.getConfiguration();
-    console.log(configuration);
-
     await vscode.workspace
       .getConfiguration()
       .update("easyRedis.address", address, vscode.ConfigurationTarget.Global);
