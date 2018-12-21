@@ -18,17 +18,19 @@ class RedisHandler {
     });
   }
 
-  getAll(): Promise<any> {
-    return new Promise((resolve, reject) => {
+  getAll(): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
       this.redisClient.hgetall("*", (error: any, result: any[]) => {
         if (error) {
           console.log(error);
           reject();
         }
-        console.log("=========================", result);
         resolve(result);
       });
-    }).catch(e => console.log(e));
+    }).catch(e => {
+      console.log(e);
+      return [];
+    });
   }
 
   getKeys(): Promise<string[]> {
@@ -36,9 +38,8 @@ class RedisHandler {
       this.redisClient.keys("*", (error: any, result: any[]) => {
         if (error) {
           console.log(error);
-          reject([]);
+          reject();
         }
-        console.log("=========================", result);
         resolve(result);
       });
     }).catch(e => {
