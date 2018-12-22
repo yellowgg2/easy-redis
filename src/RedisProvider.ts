@@ -11,7 +11,7 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
   constructor() {
     const configuration = vscode.workspace.getConfiguration();
 
-    if (configuration.easyRedis.address) {
+    if (configuration.easyRedis.address !== "") {
       this.redisHandler = new RedisHandler(
         configuration.easyRedis.address,
         6379
@@ -19,6 +19,9 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
     }
   }
   async getTreeItem(element: Entry): Promise<vscode.TreeItem> {
+    if (!this.redisHandler) {
+      return Promise.reject();
+    }
     let treeItem = new vscode.TreeItem(element.key);
     const result = await this.redisHandler.getValue(element.key);
 
@@ -50,7 +53,7 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
   }
 
   async getChildren(element: Entry): Promise<Entry[]> {
-    if (!element) {
+    if (!element && this.redisHandler) {
       // root
       const result = await this.redisHandler.getKeys();
       return result.map((value: string) => {

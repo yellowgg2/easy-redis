@@ -22,7 +22,6 @@
         "properties": {
           "easyRedis.address": {
             "type": "string",
-            "default": "localhost",
             "description": "Redis Server Address: Where redis client connect to"
           }
         }

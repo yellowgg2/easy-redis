@@ -19,6 +19,8 @@ class RedisHandler {
   }
 
   getValue(key: string): Promise<any> {
+    if (!this.redisClient) return Promise.reject();
+
     return new Promise<any>((resolve, reject) => {
       this.redisClient.hgetall(`${key}`, (error: any, result: any[]) => {
         if (error) {
@@ -34,6 +36,8 @@ class RedisHandler {
   }
 
   getKeys(): Promise<string[]> {
+    if (!this.redisClient) return Promise.reject();
+
     return new Promise<string[]>((resolve, reject) => {
       this.redisClient.keys("*", (error: any, result: any[]) => {
         if (error) {
