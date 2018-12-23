@@ -35,10 +35,23 @@
         }
       ]
     },
+    "menus": {
+      "view/title": [
+        {
+          "command": "config.commands.redisServer",
+          "when": "view == redisExplorer",
+          "group": "navigation"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "config.commands.redisServer",
-        "title": "Redis Server"
+        "title": "Redis Server",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
       }
     ]
   },
