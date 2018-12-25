@@ -1,21 +1,38 @@
-import { createClient } from "redis";
+import { createClient, RedisClient } from "redis";
 
 class RedisHandler {
   private redisClient: any = undefined;
 
-  constructor(redisHost?: string, port?: number) {
-    const options = {
-      host: redisHost,
-      port
-    };
-    this.redisClient = createClient(options);
-    this.redisClient.on("connect", () => {
-      console.log("Redis Connected!!!!!!!!!!!!!!!!!!!");
-    });
+  constructor(redisHost?: string, port = 6379) {}
 
-    this.redisClient.on("error", (err: any) => {
-      console.log("Something went wrong " + err);
+  connect(redisHost?: string, port = 6379): Promise<RedisClient> {
+    return new Promise(resolve => {
+      const options = {
+        host: redisHost,
+        port
+      };
+      this.redisClient = createClient(options);
+      this.redisClient.on("connect", () => {
+        console.log("Redis Connected!!!!!!!!!!!!!!!!!!!");
+      });
+
+      this.redisClient.on("error", (err: any) => {
+        console.log("Something went wrong " + err);
+      });
     });
+  }
+
+  disconnect(): void {
+    if (this.redisClient) {
+      this.redisClient.end(false);
+    }
+  }
+
+  get isConnected(): Boolean {
+    if (this.redisClient && this.redisClient.connected) {
+      return true;
+    }
+    return false;
   }
 
   getValue(key: string): Promise<any> {

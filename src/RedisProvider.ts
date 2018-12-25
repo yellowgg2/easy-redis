@@ -9,19 +9,31 @@ interface Entry {
 export class RedisProvider implements vscode.TreeDataProvider<Entry> {
   private redisHandler: any | undefined = undefined;
   constructor() {
+    this.redisHandler = new RedisHandler();
+    this.connectRedis();
+  }
+
+  async connectRedis(): Promise<void> {
     const configuration = vscode.workspace.getConfiguration();
 
     if (configuration.easyRedis.address !== "") {
-      this.redisHandler = new RedisHandler(
+      console.log("Redis connect to : ", configuration.easyRedis.address);
+      await this.redisHandler.connect(
         configuration.easyRedis.address,
         6379
       );
     }
   }
+
+  disconnectRedis(): void {
+    this.redisHandler.disconnect();
+  }
+
   async getTreeItem(element: Entry): Promise<vscode.TreeItem> {
     if (!this.redisHandler) {
       return Promise.reject();
     }
+
     let treeItem = new vscode.TreeItem(element.key);
     const result = await this.redisHandler.getValue(element.key);
 
