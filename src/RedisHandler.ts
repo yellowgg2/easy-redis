@@ -42,7 +42,6 @@ class RedisHandler {
       this.redisClient.hgetall(`${key}`, (error: any, result: any[]) => {
         if (error) {
           this.redisClient.get(`${key}`, (error: any, singleResult: any) => {
-            console.log("Single result: ", singleResult);
             if (error) {
               console.log(error);
               reject();

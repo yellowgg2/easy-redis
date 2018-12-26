@@ -37,6 +37,17 @@ export class RedisExplorer {
 
       this.reconnectRedis();
     });
+
+    vscode.workspace.onDidSaveTextDocument(event => {
+      fs.readFile(event.fileName, (err, data) => {
+        try {
+          const readData = JSON.parse(data.toString());
+          console.log("Object : ", readData);
+        } catch (e) {
+          console.log("String : ", data.toString());
+        }
+      });
+    });
   }
 
   private reconnectRedis() {
@@ -45,9 +56,12 @@ export class RedisExplorer {
   }
 
   private openResource(resource: any) {
+    console.log(resource);
     fs.writeFile(
       `${vscode.workspace.rootPath}/easyRedis.json`,
-      JSON.stringify(resource, null, 2),
+      resource.type === "string"
+        ? resource.value
+        : JSON.stringify(resource.value, null, 2),
       err => {
         if (err) {
           console.log(err);
