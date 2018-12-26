@@ -1,13 +1,14 @@
 import * as vscode from "vscode";
 import { RedisProvider } from "./RedisProvider";
+import fs = require("fs");
 
 interface Entry {
   key: string;
 }
 
 export class RedisExplorer {
-  private redisExplorer: vscode.TreeView<Entry>;
-  private treeDataProvider: RedisProvider;
+  redisExplorer: vscode.TreeView<Entry>;
+  treeDataProvider: RedisProvider;
 
   constructor(context: vscode.ExtensionContext) {
     this.treeDataProvider = new RedisProvider();
@@ -18,7 +19,6 @@ export class RedisExplorer {
     });
 
     vscode.commands.registerCommand("redisExplorer.readData", resource => {
-      console.log(resource);
       return this.openResource(resource);
     });
 
@@ -39,19 +39,26 @@ export class RedisExplorer {
     });
   }
 
-  private reconnectRedis(): void {
+  private reconnectRedis() {
     this.treeDataProvider.disconnectRedis();
     this.treeDataProvider.connectRedis();
   }
 
-  private openResource(resource: any): void {
-    vscode.workspace
-      .openTextDocument({
-        content: JSON.stringify(resource, null, 2),
-        language: "json"
-      })
-      .then(doc => {
-        vscode.window.showTextDocument(doc);
-      });
+  private openResource(resource: any) {
+    fs.writeFile(
+      `${vscode.workspace.rootPath}/easyRedis.json`,
+      JSON.stringify(resource, null, 2),
+      err => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        vscode.workspace
+          .openTextDocument(`${vscode.workspace.rootPath}/easyRedis.json`)
+          .then(doc => {
+            vscode.window.showTextDocument(doc);
+          });
+      }
+    );
   }
 }
