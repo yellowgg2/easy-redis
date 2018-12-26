@@ -9,9 +9,11 @@ interface Entry {
 export class RedisExplorer {
   redisExplorer: vscode.TreeView<Entry>;
   treeDataProvider: RedisProvider;
+  lastResource: any;
 
   constructor(context: vscode.ExtensionContext) {
     this.treeDataProvider = new RedisProvider();
+    this.lastResource = undefined;
 
     // redisExplorer가 package.json에 contributes.views.explorer.id 값과 일치가 되어야한다
     this.redisExplorer = vscode.window.createTreeView("redisExplorer", {
@@ -19,6 +21,7 @@ export class RedisExplorer {
     });
 
     vscode.commands.registerCommand("redisExplorer.readData", resource => {
+      this.lastResource = resource;
       return this.openResource(resource);
     });
 
@@ -42,9 +45,12 @@ export class RedisExplorer {
       fs.readFile(event.fileName, (err, data) => {
         try {
           const readData = JSON.parse(data.toString());
-          console.log("Object : ", readData);
+          this.treeDataProvider.setRedisObject(this.lastResource.key, readData);
         } catch (e) {
-          console.log("String : ", data.toString());
+          this.treeDataProvider.setRedisValue(
+            this.lastResource.key,
+            data.toString()
+          );
         }
       });
     });
@@ -58,7 +64,7 @@ export class RedisExplorer {
   private openResource(resource: any) {
     console.log(resource);
     fs.writeFile(
-      `${vscode.workspace.rootPath}/easyRedis.json`,
+      `${vscode.workspace.rootPath}/.easyRedis.redis`,
       resource.type === "string"
         ? resource.value
         : JSON.stringify(resource.value, null, 2),
@@ -68,7 +74,7 @@ export class RedisExplorer {
           return;
         }
         vscode.workspace
-          .openTextDocument(`${vscode.workspace.rootPath}/easyRedis.json`)
+          .openTextDocument(`${vscode.workspace.rootPath}/.easyRedis.redis`)
           .then(doc => {
             vscode.window.showTextDocument(doc);
           });

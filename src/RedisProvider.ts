@@ -74,4 +74,12 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
 
     return [];
   }
+
+  setRedisValue(key: string, value: string) {
+    this.redisHandler.setValue(key, value);
+  }
+
+  setRedisObject(key: string, value: any) {
+    this.redisHandler.setObject(key, value);
+  }
 }

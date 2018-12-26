@@ -76,7 +76,13 @@ class RedisHandler {
   }
 
   setObject(key: string, value: any) {
-    this.redisClient.hmset(key, ...value);
+    let keys = Object.keys(value);
+    let convertArr = [];
+    for (let key of keys) {
+      convertArr.push(key);
+      convertArr.push(value[key]);
+    }
+    this.redisClient.hmset(key, convertArr);
   }
 
   setValue(key: string, value: string) {
