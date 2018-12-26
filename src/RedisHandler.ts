@@ -74,5 +74,13 @@ class RedisHandler {
       return [];
     });
   }
+
+  setObject(key: string, value: any) {
+    this.redisClient.hmset(key, ...value);
+  }
+
+  setValue(key: string, value: string) {
+    this.redisClient.set(key, value);
+  }
 }
 export default RedisHandler;
