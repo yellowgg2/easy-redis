@@ -37,6 +37,7 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
     let treeItem = new vscode.TreeItem(element.key);
     const result = await this.redisHandler.getValue(element.key);
 
+    console.log("type : ", typeof result);
     treeItem.command = {
       command: "redisExplorer.readData",
       title: "Read Data",
@@ -60,7 +61,6 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
         "dependency.svg"
       )
     };
-    console.log("=================================");
     return treeItem;
   }
 

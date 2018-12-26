@@ -41,8 +41,15 @@ class RedisHandler {
     return new Promise<any>((resolve, reject) => {
       this.redisClient.hgetall(`${key}`, (error: any, result: any[]) => {
         if (error) {
-          console.log(error);
-          reject();
+          this.redisClient.get(`${key}`, (error: any, singleResult: any) => {
+            console.log("Single result: ", singleResult);
+            if (error) {
+              console.log(error);
+              reject();
+            }
+            resolve(singleResult);
+          });
+          return;
         }
         resolve(result);
       });
