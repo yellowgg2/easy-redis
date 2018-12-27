@@ -94,7 +94,6 @@ class RedisHandler {
           reject();
           return "";
         }
-        console.log(result);
         resolve(result);
       });
     }).catch(e => {

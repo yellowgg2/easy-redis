@@ -25,7 +25,7 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
     this.connectRedis();
   }
 
-  public refresh(): any {
+  public refresh() {
     console.log("Refresh Fire!!!!");
     this._onDidChangeTreeData.fire();
   }
@@ -46,7 +46,7 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
     }
   }
 
-  disconnectRedis(): void {
+  disconnectRedis() {
     this.redisHandler.disconnect();
   }
 
