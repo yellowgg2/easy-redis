@@ -25,17 +25,19 @@ export class RedisExplorer {
       return this.openResource(resource);
     });
 
-    vscode.commands.registerCommand("redisExplorer.delData", () => {
-      console.log("Delete ================ ", this.lastResource);
-      if (this.lastResource.key) {
-        this.treeDataProvider.deleteRedis(this.lastResource.key);
-      }
-    });
+    vscode.commands.registerCommand("redisExplorer.delData", () => {});
 
     vscode.commands.registerCommand("config.commands.redisServer", async () => {
       const address = await vscode.window.showInputBox({
         prompt: "Provide Redis Server address"
       });
+
+      if (address === "") {
+        vscode.window.showInformationMessage(
+          "Please put a correct Redis Server address."
+        );
+        return;
+      }
 
       await vscode.workspace
         .getConfiguration()
@@ -46,6 +48,7 @@ export class RedisExplorer {
         );
 
       this.reconnectRedis();
+      this.treeDataProvider.refresh();
     });
 
     vscode.commands.registerCommand(
@@ -57,7 +60,10 @@ export class RedisExplorer {
     vscode.commands.registerCommand(
       "config.commands.redisServer.delItem",
       () => {
-        console.log("Del Item");
+        if (this.lastResource.key) {
+          this.treeDataProvider.deleteRedis(this.lastResource.key);
+          this.treeDataProvider.refresh();
+        }
       }
     );
 

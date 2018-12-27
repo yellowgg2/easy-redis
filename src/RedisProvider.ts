@@ -8,9 +8,20 @@ interface Entry {
 
 export class RedisProvider implements vscode.TreeDataProvider<Entry> {
   private redisHandler: any | undefined = undefined;
+  private _onDidChangeTreeData: vscode.EventEmitter<
+    any
+  > = new vscode.EventEmitter<any>();
+  readonly onDidChangeTreeData: vscode.Event<any> = this._onDidChangeTreeData
+    .event;
+
   constructor() {
     this.redisHandler = new RedisHandler();
     this.connectRedis();
+  }
+
+  public refresh(): any {
+    console.log("Refresh Fire!!!!");
+    this._onDidChangeTreeData.fire();
   }
 
   async connectRedis(): Promise<void> {

@@ -12,8 +12,7 @@
   ],
   "activationEvents": [
     "onView:redisExplorer",
-    "onCommand:config.commands.redisServer",
-    "onCommand:redisExplorer.delData"
+    "onCommand:config.commands.redisServer"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -51,6 +50,10 @@
       ]
     },
     "commands": [
+      {
+        "command": "config.commands.redisServer",
+        "title": "Redis Server"
+      },
       {
         "command": "config.commands.redisServer.delItem",
         "title": "Delete Item",
