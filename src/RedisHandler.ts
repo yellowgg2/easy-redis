@@ -88,5 +88,9 @@ class RedisHandler {
   setValue(key: string, value: string) {
     this.redisClient.set(key, value);
   }
+
+  delete(key: string) {
+    this.redisClient.del(key);
+  }
 }
 export default RedisHandler;

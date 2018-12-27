@@ -12,7 +12,8 @@
   ],
   "activationEvents": [
     "onView:redisExplorer",
-    "onCommand:config.commands.redisServer"
+    "onCommand:config.commands.redisServer",
+    "onCommand:redisExplorer.delData"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -38,7 +39,12 @@
     "menus": {
       "view/title": [
         {
-          "command": "config.commands.redisServer",
+          "command": "config.commands.redisServer.delItem",
+          "when": "view == redisExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "config.commands.redisServer.addItem",
           "when": "view == redisExplorer",
           "group": "navigation"
         }
@@ -46,11 +52,19 @@
     },
     "commands": [
       {
-        "command": "config.commands.redisServer",
-        "title": "Redis Server",
+        "command": "config.commands.redisServer.delItem",
+        "title": "Delete Item",
         "icon": {
-          "light": "resources/light/refresh.svg",
-          "dark": "resources/dark/refresh.svg"
+          "light": "resources/light/baseline_remove_black_18dp.png",
+          "dark": "resources/dark/baseline_remove_white_18dp.png"
+        }
+      },
+      {
+        "command": "config.commands.redisServer.addItem",
+        "title": "Add Item",
+        "icon": {
+          "light": "resources/light/baseline_add_black_18dp.png",
+          "dark": "resources/dark/baseline_add_white_18dp.png"
         }
       }
     ]
