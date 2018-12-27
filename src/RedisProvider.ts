@@ -62,17 +62,12 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
         : vscode.TreeItemCollapsibleState.None
     );
 
+    let result;
     if (element.type === ItemType.Server) {
-      const info = await this.redisHandler.getInfo();
-      treeItem.command = {
-        command: "redisExplorer.readData",
-        title: "Read Data",
-        arguments: [{ key: element.key, value: info, type: typeof info }]
-      };
-      return treeItem;
+      result = await this.redisHandler.getInfo();
+    } else {
+      result = await this.redisHandler.getValue(element.key);
     }
-
-    const result = await this.redisHandler.getValue(element.key);
 
     treeItem.command = {
       command: "redisExplorer.readData",
@@ -86,7 +81,9 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
         "..",
         "resources",
         "light",
-        "baseline_web_asset_black_18dp.png"
+        element.type === ItemType.Server
+          ? "baseline_device_hub_black_18dp.png"
+          : "baseline_web_asset_black_18dp.png"
       ),
       dark: path.join(
         __filename,
@@ -94,7 +91,9 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
         "..",
         "resources",
         "dark",
-        "baseline_web_asset_white_18dp.png"
+        element.type === ItemType.Server
+          ? "baseline_device_hub_white_18dp.png"
+          : "baseline_web_asset_white_18dp.png"
       )
     };
     return treeItem;
