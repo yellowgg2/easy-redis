@@ -1,3 +1,13 @@
+<!-- TOC -->
+
+- [Note](#note)
+- [Features](#features)
+- [Usage](#usage)
+- [Extension Settings](#extension-settings)
+- [Contribution](#contribution)
+
+<!-- /TOC -->
+
 ## Note
 
 To easily access to Redis Server from UI.

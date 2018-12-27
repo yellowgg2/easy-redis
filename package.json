@@ -2,8 +2,13 @@
   "name": "easy-redis",
   "displayName": "easy-redis",
   "description": "To access redis easily",
-  "version": "0.0.1",
-  "publisher": "Youngki Kang",
+  "version": "1.0.0",
+  "publisher": "Youngki",
+  "author": {
+    "name": "Youngki Kang",
+    "email": "yellowgg@gmail.com"
+  },
+  "icon": "images/redis.png",
   "engines": {
     "vscode": "^1.30.0"
   },
@@ -89,5 +94,10 @@
   "dependencies": {
     "@types/redis": "^2.8.9",
     "redis": "^2.8.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yellowgg2/easy-redis"
+  },
+  "homepage": "https://github.com/yellowgg2/easy-redis/blob/master/README.md"
 }
