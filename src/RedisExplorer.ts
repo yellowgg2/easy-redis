@@ -2,6 +2,8 @@ import * as vscode from "vscode";
 import { RedisProvider } from "./RedisProvider";
 import fs = require("fs");
 
+const redisDummyFile = ".vscode/.easyRedis.redis";
+
 interface Entry {
   key: string;
 }
@@ -14,6 +16,10 @@ export class RedisExplorer {
   constructor(context: vscode.ExtensionContext) {
     this.treeDataProvider = new RedisProvider();
     this.lastResource = undefined;
+
+    if (!fs.existsSync(`${vscode.workspace.rootPath}/.vscode`)) {
+      fs.mkdirSync(`${vscode.workspace.rootPath}/.vscode`);
+    }
 
     // redisExplorer가 package.json에 contributes.views.explorer.id 값과 일치가 되어야한다
     this.redisExplorer = vscode.window.createTreeView("redisExplorer", {
@@ -62,7 +68,7 @@ export class RedisExplorer {
         if (key !== "") {
           this.lastResource = { key };
           fs.writeFile(
-            `${vscode.workspace.rootPath}/.easyRedis.redis`,
+            `${vscode.workspace.rootPath}/${redisDummyFile}`,
             "",
             err => {
               if (err) {
@@ -71,7 +77,7 @@ export class RedisExplorer {
               }
               vscode.workspace
                 .openTextDocument(
-                  `${vscode.workspace.rootPath}/.easyRedis.redis`
+                  `${vscode.workspace.rootPath}/${redisDummyFile}`
                 )
                 .then(doc => {
                   vscode.window.showTextDocument(doc);
@@ -115,7 +121,7 @@ export class RedisExplorer {
 
   private openResource(resource: any) {
     fs.writeFile(
-      `${vscode.workspace.rootPath}/.easyRedis.redis`,
+      `${vscode.workspace.rootPath}/${redisDummyFile}`,
       resource.type === "string"
         ? resource.value
         : JSON.stringify(resource.value, null, 2),
@@ -125,7 +131,7 @@ export class RedisExplorer {
           return;
         }
         vscode.workspace
-          .openTextDocument(`${vscode.workspace.rootPath}/.easyRedis.redis`)
+          .openTextDocument(`${vscode.workspace.rootPath}/${redisDummyFile}`)
           .then(doc => {
             vscode.window.showTextDocument(doc);
           });
