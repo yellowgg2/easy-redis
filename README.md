@@ -41,6 +41,6 @@ To easily access to Redis Server from UI.
 
 ## Contribution
 
-Fork the [repo]() and submit pull requests.
+Fork the [repo](https://github.com/yellowgg2/easy-redis) and submit pull requests.
 
 **Enjoy!**
