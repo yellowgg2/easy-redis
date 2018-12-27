@@ -2,7 +2,7 @@
   "name": "easy-redis",
   "displayName": "easy-redis",
   "description": "To access redis easily",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publisher": "Youngki",
   "author": {
     "name": "Youngki Kang",
@@ -100,5 +100,6 @@
     "type": "git",
     "url": "https://github.com/yellowgg2/easy-redis"
   },
-  "homepage": "https://github.com/yellowgg2/easy-redis/blob/master/README.md"
+  "homepage": "https://github.com/yellowgg2/easy-redis/blob/master/README.md",
+  "license": "MIT"
 }
