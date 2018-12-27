@@ -2,8 +2,14 @@ import * as vscode from "vscode";
 import RedisHandler from "./RedisHandler";
 import * as path from "path";
 
+enum ItemType {
+  Server = 0,
+  Item = 1
+}
+
 interface Entry {
   key: string;
+  type: ItemType;
 }
 
 export class RedisProvider implements vscode.TreeDataProvider<Entry> {
@@ -49,7 +55,23 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
       return Promise.reject();
     }
 
-    let treeItem = new vscode.TreeItem(element.key);
+    let treeItem = new vscode.TreeItem(
+      element.key,
+      element.type === ItemType.Server
+        ? vscode.TreeItemCollapsibleState.Collapsed
+        : vscode.TreeItemCollapsibleState.None
+    );
+
+    if (element.type === ItemType.Server) {
+      const info = await this.redisHandler.getInfo();
+      treeItem.command = {
+        command: "redisExplorer.readData",
+        title: "Read Data",
+        arguments: [{ key: element.key, value: info, type: typeof info }]
+      };
+      return treeItem;
+    }
+
     const result = await this.redisHandler.getValue(element.key);
 
     treeItem.command = {
@@ -64,7 +86,7 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
         "..",
         "resources",
         "light",
-        "dependency.svg"
+        "baseline_web_asset_black_18dp.png"
       ),
       dark: path.join(
         __filename,
@@ -72,19 +94,21 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
         "..",
         "resources",
         "dark",
-        "dependency.svg"
+        "baseline_web_asset_white_18dp.png"
       )
     };
     return treeItem;
   }
 
   async getChildren(element: Entry | undefined): Promise<Entry[]> {
-    if (!element && this.redisHandler) {
-      // root
+    if (!element) {
+      const configuration = vscode.workspace.getConfiguration();
+      return [{ key: configuration.easyRedis.address, type: ItemType.Server }];
+    } else if (element.type === ItemType.Server) {
       try {
         const result = await this.redisHandler.getKeys();
         return result.map((value: string) => {
-          return { key: value };
+          return { key: value, type: ItemType.Item };
         });
       } catch (e) {
         return [];

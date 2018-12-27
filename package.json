@@ -2,7 +2,7 @@
   "name": "easy-redis",
   "displayName": "easy-redis",
   "description": "To access redis easily",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "publisher": "Youngki",
   "author": {
     "name": "Youngki Kang",

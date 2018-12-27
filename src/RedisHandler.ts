@@ -47,7 +47,7 @@ class RedisHandler {
   }
 
   getValue(key: string): Promise<any> {
-    if (!this.redisClient) return Promise.reject();
+    if (!this.isConnected) return Promise.reject();
 
     return new Promise<any>((resolve, reject) => {
       this.redisClient.hgetall(`${key}`, (error: any, result: any[]) => {
@@ -70,7 +70,7 @@ class RedisHandler {
   }
 
   getKeys(): Promise<string[]> {
-    if (!this.redisClient) return Promise.reject();
+    if (!this.isConnected) return Promise.reject();
 
     return new Promise<string[]>((resolve, reject) => {
       this.redisClient.keys("*", (error: any, result: any[]) => {
@@ -85,7 +85,25 @@ class RedisHandler {
     });
   }
 
+  getInfo(): Promise<string> {
+    if (!this.isConnected) return Promise.reject();
+
+    return new Promise<string>((resolve, reject) => {
+      this.redisClient.info((error: any, result: any) => {
+        if (error) {
+          reject();
+          return "";
+        }
+        console.log(result);
+        resolve(result);
+      });
+    }).catch(e => {
+      return "";
+    });
+  }
+
   setObject(key: string, value: any) {
+    if (!this.isConnected) return;
     let keys = Object.keys(value);
     let convertArr = [];
     for (let key of keys) {
@@ -96,10 +114,12 @@ class RedisHandler {
   }
 
   setValue(key: string, value: string) {
+    if (!this.isConnected) return;
     this.redisClient.set(key, value);
   }
 
   delete(key: string) {
+    if (!this.isConnected) return;
     this.redisClient.del(key);
   }
 }
