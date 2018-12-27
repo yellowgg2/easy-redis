@@ -25,16 +25,14 @@ export class RedisExplorer {
       return this.openResource(resource);
     });
 
-    vscode.commands.registerCommand("redisExplorer.delData", () => {});
-
     vscode.commands.registerCommand("config.commands.redisServer", async () => {
       const address = await vscode.window.showInputBox({
-        prompt: "Provide Redis Server address"
+        prompt: "Provide Redis Server address "
       });
 
       if (address === "") {
         vscode.window.showInformationMessage(
-          "Please put a correct Redis Server address."
+          "Please put a correct Redis Server address "
         );
         return;
       }
@@ -48,13 +46,39 @@ export class RedisExplorer {
         );
 
       this.reconnectRedis();
-      this.treeDataProvider.refresh();
+    });
+
+    vscode.workspace.onDidChangeConfiguration(event => {
+      this.reconnectRedis();
     });
 
     vscode.commands.registerCommand(
       "config.commands.redisServer.addItem",
-      () => {
-        console.log("Add Item");
+      async () => {
+        const key = await vscode.window.showInputBox({
+          prompt: "Provide a new key "
+        });
+
+        if (key !== "") {
+          this.lastResource = { key };
+          fs.writeFile(
+            `${vscode.workspace.rootPath}/.easyRedis.redis`,
+            "",
+            err => {
+              if (err) {
+                console.log(err);
+                return;
+              }
+              vscode.workspace
+                .openTextDocument(
+                  `${vscode.workspace.rootPath}/.easyRedis.redis`
+                )
+                .then(doc => {
+                  vscode.window.showTextDocument(doc);
+                });
+            }
+          );
+        }
       }
     );
     vscode.commands.registerCommand(
@@ -69,6 +93,7 @@ export class RedisExplorer {
 
     vscode.workspace.onDidSaveTextDocument(event => {
       fs.readFile(event.fileName, (err, data) => {
+        this.treeDataProvider.deleteRedis(this.lastResource.key);
         try {
           const readData = JSON.parse(data.toString());
           this.treeDataProvider.setRedisObject(this.lastResource.key, readData);
@@ -78,6 +103,7 @@ export class RedisExplorer {
             data.toString()
           );
         }
+        this.treeDataProvider.refresh();
       });
     });
   }
@@ -88,7 +114,6 @@ export class RedisExplorer {
   }
 
   private openResource(resource: any) {
-    console.log(resource);
     fs.writeFile(
       `${vscode.workspace.rootPath}/.easyRedis.redis`,
       resource.type === "string"

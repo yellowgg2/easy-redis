@@ -52,7 +52,7 @@
     "commands": [
       {
         "command": "config.commands.redisServer",
-        "title": "Redis Server"
+        "title": "EasyRedis: Add new redis server address"
       },
       {
         "command": "config.commands.redisServer.delItem",

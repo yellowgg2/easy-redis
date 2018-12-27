@@ -1,4 +1,5 @@
 import { createClient, RedisClient } from "redis";
+import * as vscode from "vscode";
 
 class RedisHandler {
   private redisClient: any = undefined;
@@ -8,16 +9,26 @@ class RedisHandler {
   connect(redisHost?: string, port = 6379): Promise<RedisClient> {
     return new Promise(resolve => {
       const options = {
-        host: redisHost,
-        port
+        url: redisHost,
+        retry_strategy: (retry: any) => {
+          vscode.window.showInformationMessage(
+            `${
+              retry.error.code
+            } error occurs. Please check the address you just put in.`
+          );
+          resolve();
+          return new Error("Retry time exhausted");
+        }
       };
       this.redisClient = createClient(options);
       this.redisClient.on("connect", () => {
         console.log("Redis Connected!!!!!!!!!!!!!!!!!!!");
+        resolve();
       });
 
       this.redisClient.on("error", (err: any) => {
         console.log("Something went wrong " + err);
+        resolve();
       });
     });
   }
@@ -64,13 +75,12 @@ class RedisHandler {
     return new Promise<string[]>((resolve, reject) => {
       this.redisClient.keys("*", (error: any, result: any[]) => {
         if (error) {
-          console.log(error);
           reject();
+          return;
         }
         resolve(result);
       });
     }).catch(e => {
-      console.log(e);
       return [];
     });
   }

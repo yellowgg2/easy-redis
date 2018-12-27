@@ -24,15 +24,19 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
     this._onDidChangeTreeData.fire();
   }
 
-  async connectRedis(): Promise<void> {
+  async connectRedis() {
     const configuration = vscode.workspace.getConfiguration();
 
     if (configuration.easyRedis.address !== "") {
       console.log("Redis connect to : ", configuration.easyRedis.address);
-      await this.redisHandler.connect(
-        configuration.easyRedis.address,
-        6379
-      );
+      this.redisHandler
+        .connect(
+          configuration.easyRedis.address,
+          6379
+        )
+        .then(() => {
+          this.refresh();
+        });
     }
   }
 
@@ -74,13 +78,17 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
     return treeItem;
   }
 
-  async getChildren(element: Entry): Promise<Entry[]> {
+  async getChildren(element: Entry | undefined): Promise<Entry[]> {
     if (!element && this.redisHandler) {
       // root
-      const result = await this.redisHandler.getKeys();
-      return result.map((value: string) => {
-        return { key: value };
-      });
+      try {
+        const result = await this.redisHandler.getKeys();
+        return result.map((value: string) => {
+          return { key: value };
+        });
+      } catch (e) {
+        return [];
+      }
     }
 
     return [];
