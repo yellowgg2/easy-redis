@@ -20,6 +20,12 @@ export class RedisExplorer {
     if (!fs.existsSync(`${vscode.workspace.rootPath}/.vscode`)) {
       fs.mkdirSync(`${vscode.workspace.rootPath}/.vscode`);
     }
+    fs.unlink(`${vscode.workspace.rootPath}/${redisDummyFile}`, err => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+    });
 
     // redisExplorer가 package.json에 contributes.views.explorer.id 값과 일치가 되어야한다
     this.redisExplorer = vscode.window.createTreeView("redisExplorer", {
@@ -98,6 +104,9 @@ export class RedisExplorer {
     );
 
     vscode.workspace.onDidSaveTextDocument(event => {
+      const extension = event.fileName.split(".");
+      if (extension[extension.length - 1] !== "redis") return;
+
       fs.readFile(event.fileName, (err, data) => {
         this.treeDataProvider.deleteRedis(this.lastResource.key);
         try {
