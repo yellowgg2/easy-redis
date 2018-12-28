@@ -106,6 +106,7 @@ export class RedisExplorer {
     vscode.workspace.onDidSaveTextDocument(event => {
       const extension = event.fileName.split(".");
       if (extension[extension.length - 1] !== "redis") return;
+      if (!this.lastResource.key) return;
 
       fs.readFile(event.fileName, (err, data) => {
         this.treeDataProvider.deleteRedis(this.lastResource.key);
@@ -126,6 +127,7 @@ export class RedisExplorer {
   private reconnectRedis() {
     this.treeDataProvider.disconnectRedis();
     this.treeDataProvider.connectRedis();
+    this.lastResource = undefined;
   }
 
   private openResource(resource: any) {
