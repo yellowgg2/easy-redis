@@ -27,7 +27,6 @@ export class RedisExplorer {
       }
     });
 
-    // redisExplorer가 package.json에 contributes.views.explorer.id 값과 일치가 되어야한다
     this.redisExplorer = vscode.window.createTreeView("redisExplorer", {
       treeDataProvider: this.treeDataProvider
     });
@@ -93,6 +92,7 @@ export class RedisExplorer {
         }
       }
     );
+
     vscode.commands.registerCommand(
       "config.commands.redisServer.delItem",
       () => {

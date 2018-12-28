@@ -78,7 +78,7 @@ class RedisHandler {
           reject();
           return;
         }
-        resolve(result);
+        resolve(result.sort());
       });
     }).catch(e => {
       return [];
