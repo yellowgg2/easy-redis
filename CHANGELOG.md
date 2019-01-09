@@ -15,7 +15,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Add a root with the url of Redis server
 - By clicking on the root, it will show the `info` of the server
 
-### Chanaged
+### Changed
 
 - Change icon
 
@@ -30,3 +30,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Added
 
 - Make list items sorted in alphabetical order
+
+## [1.0.8]
+
+### Fixed
+
+- Fix typo in change log
+
+### Added
+
+- Add gif for server info

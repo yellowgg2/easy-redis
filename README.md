@@ -12,6 +12,8 @@
 
 To easily access to Redis Server from UI.
 
+Add `.vscode/.easyRedis.redis` file to `.gitignore`
+
 ## Features
 
 1. List up keys on Redis explorer
@@ -21,13 +23,17 @@ To easily access to Redis Server from UI.
 
 ## Usage
 
-- Add redis server address. (`Ctrl+Shift+p` or directly edit `easyRedis.address` in settings.json)
+- [`Add server`] Add redis server address. (`Ctrl+Shift+p` or directly edit `easyRedis.address` in settings.json)
 
 ![add redis server](images/addredisserver.gif)
 
-- [`Add server`] Once adding redis server address correctly, you will be able to see the list of keys on `REDIS EXPLORER`.
+- Once adding redis server address correctly, you will be able to see the list of keys on `REDIS EXPLORER`.
 
 ![redis explorer](images/redisexplorer.png)
+
+- [`Server Info`] As you click on root, you can see the server info that you provided.
+
+![server info](images/serverinfo.gif)
 
 - [`Edit single value`] You can edit `value` that held by `key` on text editor and save it (`ctrl+s`) to store it to Redis.
 
