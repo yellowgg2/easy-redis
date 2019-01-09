@@ -31,7 +31,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Make list items sorted in alphabetical order
 
-## [1.0.8]
+## [1.0.9]
 
 ### Fixed
 
