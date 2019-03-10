@@ -121,5 +121,10 @@ class RedisHandler {
     if (!this.isConnected) return;
     this.redisClient.del(key);
   }
+
+  flushAll() {
+    if (!this.isConnected) return;
+    this.redisClient.flushall();
+  }
 }
 export default RedisHandler;

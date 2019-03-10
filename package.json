@@ -2,7 +2,7 @@
   "name": "easy-redis",
   "displayName": "easy-redis",
   "description": "To access redis easily",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "publisher": "Youngki",
   "author": {
     "name": "Youngki Kang",
@@ -48,6 +48,11 @@
           "group": "navigation"
         },
         {
+          "command": "config.commands.redisServer.delAllItems",
+          "when": "view == redisExplorer",
+          "group": "navigation"
+        },
+        {
           "command": "config.commands.redisServer.addItem",
           "when": "view == redisExplorer",
           "group": "navigation"
@@ -58,6 +63,14 @@
       {
         "command": "config.commands.redisServer",
         "title": "EasyRedis: Add new redis server address"
+      },
+      {
+        "command": "config.commands.redisServer.delAllItems",
+        "title": "Delete all items",
+        "icon": {
+          "light": "resources/light/baseline_layers_clear_black_18dp.png",
+          "dark": "resources/dark/baseline_layers_clear_white_18dp.png"
+        }
       },
       {
         "command": "config.commands.redisServer.delItem",

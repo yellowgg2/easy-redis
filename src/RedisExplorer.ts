@@ -4,8 +4,15 @@ import fs = require("fs");
 
 const redisDummyFile = ".vscode/.easyRedis.redis";
 
+enum ItemType {
+  Server = 0,
+  Item = 1,
+  ItemSelected = 2
+}
+
 interface Entry {
   key: string;
+  type: ItemType;
 }
 
 export class RedisExplorer {
@@ -33,6 +40,7 @@ export class RedisExplorer {
 
     vscode.commands.registerCommand("redisExplorer.readData", resource => {
       this.lastResource = resource;
+      // When refresh, it will execute getTreeItem in provider.
       return this.openResource(resource);
     });
 
@@ -98,6 +106,22 @@ export class RedisExplorer {
       () => {
         if (this.lastResource.key) {
           this.treeDataProvider.deleteRedis(this.lastResource.key);
+          this.treeDataProvider.refresh();
+        }
+      }
+    );
+
+    vscode.commands.registerCommand(
+      "config.commands.redisServer.delAllItems",
+      async () => {
+        //   this.treeDataProvider.refresh();
+        const result = await vscode.window.showWarningMessage(
+          "Hello World!",
+          { modal: true },
+          "Delete All"
+        );
+        if (result === "Delete All") {
+          this.treeDataProvider.flushAll();
           this.treeDataProvider.refresh();
         }
       }

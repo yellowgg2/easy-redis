@@ -4,7 +4,8 @@ import * as path from "path";
 
 enum ItemType {
   Server = 0,
-  Item = 1
+  Item = 1,
+  ItemSelected = 2
 }
 
 interface Entry {
@@ -36,10 +37,7 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
     if (configuration.easyRedis.address !== "") {
       console.log("Redis connect to : ", configuration.easyRedis.address);
       this.redisHandler
-        .connect(
-          configuration.easyRedis.address,
-          6379
-        )
+        .connect(configuration.easyRedis.address, 6379)
         .then(() => {
           this.refresh();
         });
@@ -69,11 +67,6 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
       result = await this.redisHandler.getValue(element.key);
     }
 
-    treeItem.command = {
-      command: "redisExplorer.readData",
-      title: "Read Data",
-      arguments: [{ key: element.key, value: result, type: typeof result }]
-    };
     treeItem.iconPath = {
       light: path.join(
         __filename,
@@ -95,6 +88,19 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
           ? "baseline_device_hub_white_18dp.png"
           : "baseline_web_asset_white_18dp.png"
       )
+    };
+
+    treeItem.command = {
+      command: "redisExplorer.readData",
+      title: "Read Data",
+      arguments: [
+        {
+          key: element.key,
+          value: result,
+          type: typeof result,
+          iconType: element.type
+        }
+      ]
     };
     return treeItem;
   }
@@ -127,5 +133,9 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
 
   deleteRedis(key: string) {
     this.redisHandler.delete(key);
+  }
+
+  flushAll() {
+    this.redisHandler.flushAll();
   }
 }
