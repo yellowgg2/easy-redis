@@ -40,3 +40,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Added
 
 - Add gif for server info
+
+## [1.0.10]
+
+### Improvement
+
+- Facilitate deleting item for each item
+
+### Added
+
+- Add "Flush DB" feature
