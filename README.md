@@ -43,9 +43,13 @@ Add `.vscode/.easyRedis.redis` file to `.gitignore`
 
 ![edit hash item](images/edithash.gif)
 
-- [`Delete item`] Click on a key you want to delete and then click `-` icon on `REDIS EXPLORER`.
+- [`Delete item`] Click on a key you want to delete and then click `-` icon on each item.
 
 ![delete item](images/deleteitem.gif)
+
+- [`Flush DB`] You can now use "flush db" feature that delete all items at once.
+
+![flush item](images/flushdb.gif)
 
 - [`Add item`] Click on `+` icon, put key string, edit value and save it (`ctrl+s`)!
 
