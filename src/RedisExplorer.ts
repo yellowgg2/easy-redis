@@ -103,12 +103,13 @@ export class RedisExplorer {
 
     vscode.commands.registerCommand(
       "config.commands.redisServer.delItem",
-      () => {
-        if (this.lastResource.key) {
-          this.treeDataProvider.deleteRedis(this.lastResource.key);
+      (node: Entry) => {
+        if (node) {
+          this.treeDataProvider.deleteRedis(node.key);
           this.treeDataProvider.refresh();
         }
-      }
+      },
+      this // To use parameter in callback function, you must pass 'this'
     );
 
     vscode.commands.registerCommand(
@@ -116,7 +117,7 @@ export class RedisExplorer {
       async () => {
         //   this.treeDataProvider.refresh();
         const result = await vscode.window.showWarningMessage(
-          "Hello World!",
+          "Do you REALLY want to delete all items???",
           { modal: true },
           "Delete All"
         );

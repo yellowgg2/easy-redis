@@ -43,11 +43,6 @@
     "menus": {
       "view/title": [
         {
-          "command": "config.commands.redisServer.delItem",
-          "when": "view == redisExplorer",
-          "group": "navigation"
-        },
-        {
           "command": "config.commands.redisServer.delAllItems",
           "when": "view == redisExplorer",
           "group": "navigation"
@@ -56,6 +51,13 @@
           "command": "config.commands.redisServer.addItem",
           "when": "view == redisExplorer",
           "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "config.commands.redisServer.delItem",
+          "when": "view == redisExplorer && viewItem == redisNode",
+          "group": "inline"
         }
       ]
     },
@@ -66,7 +68,7 @@
       },
       {
         "command": "config.commands.redisServer.delAllItems",
-        "title": "Delete all items",
+        "title": "Flush REDIS",
         "icon": {
           "light": "resources/light/baseline_layers_clear_black_18dp.png",
           "dark": "resources/dark/baseline_layers_clear_white_18dp.png"

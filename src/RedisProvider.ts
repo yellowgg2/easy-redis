@@ -102,6 +102,10 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
         }
       ]
     };
+
+    if (element.type !== ItemType.Server) {
+      treeItem.contextValue = "redisNode";
+    }
     return treeItem;
   }
 
