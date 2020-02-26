@@ -55,6 +55,10 @@ Add `.vscode/.easyRedis.redis` file to `.gitignore`
 
 ![add item](images/additem.gif)
 
+- [`Refresh`] Click on `refresh` icon that look like circle'ish in order to reconnect and refresh tree view. You can use this to reconnect redis as well after `disconnect` redis
+
+- [`Disconnect`] Click on `disconnect` icon to disconnect redis.
+
 ## Extension Settings
 
 - `easyRedis.address`: add redis server address in url form. (ex: redis://localhost)

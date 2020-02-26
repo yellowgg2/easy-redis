@@ -2,7 +2,7 @@
   "name": "easy-redis",
   "displayName": "easy-redis",
   "description": "To access redis easily",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "publisher": "Youngki",
   "author": {
     "name": "Youngki Kang",
@@ -56,6 +56,11 @@
           "command": "config.commands.redisServer.refresh",
           "when": "view == redisExplorer",
           "group": "navigation"
+        },
+        {
+          "command": "config.commands.redisServer.disconnect",
+          "when": "view == redisExplorer",
+          "group": "navigation"
         }
       ],
       "view/item/context": [
@@ -101,6 +106,14 @@
         "icon": {
           "light": "resources/light/baseline_refresh_black_18dp.png",
           "dark": "resources/dark/baseline_refresh_white_18dp.png"
+        }
+      },
+      {
+        "command": "config.commands.redisServer.disconnect",
+        "title": "Disconnect",
+        "icon": {
+          "light": "resources/light/baseline_cancel_black_18dp.png",
+          "dark": "resources/dark/baseline_cancel_white_18dp.png"
         }
       }
     ]

@@ -56,3 +56,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## Fixed
 
 - Update README
+
+## [1.0.12]
+
+## Added
+
+- Add "Disconnect" feature to completely disconnect db
+- Add "Refresh" feature to reconnect db and refresh treeview
+
+## update
+
+- change redis npm package to ioredis
