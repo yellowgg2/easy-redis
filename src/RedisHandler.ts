@@ -1,5 +1,5 @@
 // import { createClient, RedisClient } from "redis";
-import Redis from "ioredis";
+import * as Redis from "ioredis";
 import * as vscode from "vscode";
 
 class RedisHandler {
@@ -34,7 +34,7 @@ class RedisHandler {
 
   connect(url: string): void {
     this.redisClient = new Redis(url, {
-      retryStrategy: (times: number) => {
+      retryStrategy: (): any => {
         vscode.window.showInformationMessage(
           `Won't be able to connect. Please check the address you just put in.`
         );
@@ -88,7 +88,7 @@ class RedisHandler {
     });
   }
 
-  getKeys(): Promise<string[]> {
+  async getKeys(): Promise<string[]> {
     if (!this.isConnected) return Promise.reject();
 
     return new Promise<string[]>((resolve, reject) => {
@@ -99,12 +99,12 @@ class RedisHandler {
         }
         resolve(result.sort());
       });
-    }).catch(e => {
+    }).catch(() => {
       return [];
     });
   }
 
-  getInfo(): Promise<string> {
+  async getInfo(): Promise<string> {
     if (!this.isConnected) return Promise.reject();
 
     return new Promise<string>((resolve, reject) => {
@@ -115,7 +115,7 @@ class RedisHandler {
         }
         resolve(result);
       });
-    }).catch(e => {
+    }).catch(() => {
       return "";
     });
   }

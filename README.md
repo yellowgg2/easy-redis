@@ -25,6 +25,12 @@ Add `.vscode/.easyRedis.redis` file to `.gitignore`
 
 - [`Add server`] Add redis server address. (`Ctrl+Shift+p` or directly edit `easyRedis.address` in settings.json)
 
+```conf
+# url format example
+# Connect to 127.0.0.1:6380, db 4, using password "authpassword"
+redis://:authpassword@127.0.0.1:6380/4
+```
+
 ![add redis server](images/addredisserver.gif)
 
 - Once adding redis server address correctly, you will be able to see the list of keys on `REDIS EXPLORER`.
