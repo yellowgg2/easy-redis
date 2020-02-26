@@ -1,46 +1,65 @@
-import { createClient, RedisClient } from "redis";
+// import { createClient, RedisClient } from "redis";
+import Redis from "ioredis";
 import * as vscode from "vscode";
 
 class RedisHandler {
   private redisClient: any = undefined;
 
-  constructor(redisHost?: string, port = 6379) {}
+  constructor() {}
 
-  connect(redisHost?: string, port = 6379): Promise<RedisClient> {
-    return new Promise(resolve => {
-      const options = {
-        url: redisHost,
-        retry_strategy: (retry: any) => {
-          vscode.window.showInformationMessage(
-            `${
-              retry.error.code
-            } error occurs. Please check the address you just put in.`
-          );
-          resolve();
-          return new Error("Retry time exhausted");
-        }
-      };
-      this.redisClient = createClient(options);
-      this.redisClient.on("connect", () => {
-        console.log("Redis Connected!!!!!!!!!!!!!!!!!!!");
-        resolve();
-      });
+  //   connect(redisHost?: string, port = 6379): Promise<RedisClient> {
+  //     return new Promise(resolve => {
+  //       const options = {
+  //         url: redisHost,
+  //         retry_strategy: (retry: any) => {
+  //           vscode.window.showInformationMessage(
+  //             `${retry.error.code} error occurs. Please check the address you just put in.`
+  //           );
+  //           resolve();
+  //           return new Error("Retry time exhausted");
+  //         }
+  //       };
+  //       this.redisClient = createClient(options);
+  //       this.redisClient.on("connect", () => {
+  //         console.log("Redis Connected!!!!!!!!!!!!!!!!!!!");
+  //         resolve();
+  //       });
 
-      this.redisClient.on("error", (err: any) => {
-        console.log("Something went wrong " + err);
-        resolve();
-      });
+  //       this.redisClient.on("error", (err: any) => {
+  //         console.log("Something went wrong " + err);
+  //         resolve();
+  //       });
+  //     });
+  //   }
+
+  connect(url: string): void {
+    this.redisClient = new Redis(url, {
+      retryStrategy: (times: number) => {
+        vscode.window.showInformationMessage(
+          `Won't be able to connect. Please check the address you just put in.`
+        );
+        return new Error("Retry time exhausted");
+      },
+      maxRetriesPerRequest: 1
+    });
+
+    this.redisClient.on("connect", () => {
+      console.log("Redis Connected!!!!!!!!!!!!!!!!!!!");
+    });
+
+    this.redisClient.on("error", (error: any) => {
+      console.log(error);
     });
   }
 
   disconnect(): void {
     if (this.redisClient) {
-      this.redisClient.end(false);
+      this.redisClient.disconnect();
     }
   }
 
   get isConnected(): Boolean {
-    if (this.redisClient && this.redisClient.connected) {
+    if (this.redisClient && this.redisClient.status) {
       return true;
     }
     return false;

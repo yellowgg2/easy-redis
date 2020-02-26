@@ -51,6 +51,11 @@
           "command": "config.commands.redisServer.addItem",
           "when": "view == redisExplorer",
           "group": "navigation"
+        },
+        {
+          "command": "config.commands.redisServer.refresh",
+          "when": "view == redisExplorer",
+          "group": "navigation"
         }
       ],
       "view/item/context": [
@@ -89,6 +94,14 @@
           "light": "resources/light/baseline_add_black_18dp.png",
           "dark": "resources/dark/baseline_add_white_18dp.png"
         }
+      },
+      {
+        "command": "config.commands.redisServer.refresh",
+        "title": "Refresh",
+        "icon": {
+          "light": "resources/light/baseline_refresh_black_18dp.png",
+          "dark": "resources/dark/baseline_refresh_white_18dp.png"
+        }
       }
     ]
   },
@@ -101,14 +114,15 @@
     "publish": "vsce package && vsce publish"
   },
   "devDependencies": {
-    "typescript": "^3.1.4",
-    "vscode": "^1.1.21",
-    "tslint": "^5.8.0",
-    "@types/node": "^8.10.25",
-    "@types/mocha": "^2.2.42"
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^8.10.59",
+    "tslint": "^5.20.1",
+    "typescript": "^3.8.2",
+    "vscode": "^1.1.36"
   },
   "dependencies": {
-    "@types/redis": "^2.8.9",
+    "@types/redis": "^2.8.16",
+    "ioredis": "^4.16.0",
     "redis": "^2.8.0"
   },
   "repository": {

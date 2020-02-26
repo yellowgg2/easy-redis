@@ -102,6 +102,14 @@ export class RedisExplorer {
     );
 
     vscode.commands.registerCommand(
+      "config.commands.redisServer.refresh",
+      () => {
+        this.reconnectRedis();
+      },
+      this // To use parameter in callback function, you must pass 'this'
+    );
+
+    vscode.commands.registerCommand(
       "config.commands.redisServer.delItem",
       (node: Entry) => {
         if (node) {
@@ -152,6 +160,7 @@ export class RedisExplorer {
   private reconnectRedis() {
     this.treeDataProvider.disconnectRedis();
     this.treeDataProvider.connectRedis();
+    this.treeDataProvider.refresh();
     this.lastResource = undefined;
   }
 

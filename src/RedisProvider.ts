@@ -36,11 +36,7 @@ export class RedisProvider implements vscode.TreeDataProvider<Entry> {
 
     if (configuration.easyRedis.address !== "") {
       console.log("Redis connect to : ", configuration.easyRedis.address);
-      this.redisHandler
-        .connect(configuration.easyRedis.address, 6379)
-        .then(() => {
-          this.refresh();
-        });
+      this.redisHandler.connect(configuration.easyRedis.address);
     }
   }
 
